@@ -260,7 +260,8 @@ public class BoxedMessage: NSObject {
 
 public class Serialization: NSObject, MTSerialization {
     public func currentLayer() -> UInt {
-        return 230
+        // Airagram: server layer
+        return 229
     }
     
     public func parseMessage(_ data: Data!) -> Any! {

@@ -125,6 +125,21 @@ fileprivate let parsers: [Int32 : (BufferReader) -> Any?] = {
     dict[602479523] = { return Api.BotPreviewMedia.parse_botPreviewMedia($0) }
     dict[-147976487] = { return Api.BotVerification.parse_botVerification($0) }
     dict[-1591021569] = { return Api.BotVerifierSettings.parse_botVerifierSettings($0) }
+    // Airagram (layer 229): botVerification#f93cd45c bot_id:long icon:long description:string
+    dict[-113453988] = { reader in
+        guard let botId = reader.readInt64(), let icon = reader.readInt64(), let description = parseString(reader) else { return nil }
+        return Api.BotVerification.botVerification(Api.BotVerification.Cons_botVerification(botId: botId, icon: icon, description: .textWithEntities(Api.TextWithEntities.Cons_textWithEntities(text: description, entities: []))))
+    }
+    // Airagram (layer 229): botVerifierSettings#b0cd6617 flags:# icon:long company:string custom_description:flags.0?string
+    dict[-1328716265] = { reader in
+        guard let flags = reader.readInt32(), let icon = reader.readInt64(), let company = parseString(reader) else { return nil }
+        var customDescription: Api.TextWithEntities?
+        if Int(flags) & Int(1 << 0) != 0 {
+            guard let text = parseString(reader) else { return nil }
+            customDescription = .textWithEntities(Api.TextWithEntities.Cons_textWithEntities(text: text, entities: []))
+        }
+        return Api.BotVerifierSettings.botVerifierSettings(Api.BotVerifierSettings.Cons_botVerifierSettings(flags: flags, icon: icon, company: company, customDescription: customDescription))
+    }
     dict[-283809188] = { return Api.BusinessAwayMessage.parse_businessAwayMessage($0) }
     dict[-910564679] = { return Api.BusinessAwayMessageSchedule.parse_businessAwayMessageScheduleAlways($0) }
     dict[-867328308] = { return Api.BusinessAwayMessageSchedule.parse_businessAwayMessageScheduleCustom($0) }
