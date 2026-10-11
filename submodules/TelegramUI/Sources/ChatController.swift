@@ -5545,7 +5545,7 @@ public final class ChatControllerImpl: TelegramBaseController, ChatController, G
             guard let self else {
                 return
             }
-            self.openUrl("https://aipgram.duckdns.org/nft/\(slug)", concealed: false)
+            self.openUrl("https://airagram.duckdns.org/nft/\(slug)", concealed: false)
         }, openMessageFeeException: { [weak self] in
             guard let self, let peer = self.presentationInterfaceState.renderedPeer?.peer.flatMap(EnginePeer.init) else {
                 return

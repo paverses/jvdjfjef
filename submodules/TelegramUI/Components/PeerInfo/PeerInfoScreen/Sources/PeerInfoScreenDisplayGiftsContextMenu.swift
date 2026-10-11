@@ -107,7 +107,7 @@ extension PeerInfoScreenNode {
                     return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.contextMenu.primaryColor)
                 }, action: { [weak self] _, f in
                     f(.default)
-                    self?.openShareLink(url: "https://aipgram.duckdns.org/\(addressName)/c/\(id)")
+                    self?.openShareLink(url: "https://airagram.duckdns.org/\(addressName)/c/\(id)")
                 }))
                 if items.isEmpty {
                     items.append(shareAction)

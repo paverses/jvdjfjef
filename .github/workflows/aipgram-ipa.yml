@@ -1,4 +1,4 @@
-name: AIPGram IPA
+name: Airagram IPA
 
 on:
   push:
@@ -22,8 +22,10 @@ jobs:
           sudo xcode-select -s "$XCODE/Contents/Developer"
           xcodebuild -version
 
-      - name: Apply AIPGram configuration
-        run: node aipgram/apply.js
+      - name: Apply Airagram configuration
+        run: |
+          node aipgram/apply.js
+          python3 aipgram/make_profiles.py
 
       - name: Install the self-signed signing identity
         run: |
@@ -67,11 +69,11 @@ jobs:
           mkdir -p artifacts
           IPA=bazel-bin/Telegram/Telegram.ipa
           [ -f "$IPA" ] || IPA=$(find -L bazel-out -path "*/bin/Telegram/Telegram.ipa" | head -1)
-          cp "$IPA" artifacts/AIPGram.ipa
+          cp "$IPA" artifacts/Airagram.ipa
           ls -la artifacts
 
       - uses: actions/upload-artifact@v4
         with:
-          name: aipgram-ios-ipa
-          path: artifacts/AIPGram.ipa
+          name: airagram-ios-ipa
+          path: artifacts/Airagram.ipa
           if-no-files-found: error

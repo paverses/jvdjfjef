@@ -685,9 +685,13 @@ private func extractAccountManagerState(records: AccountRecordsView<TelegramAcco
             networkEngineFactory: RustNetworkEngineFactory()
         )
         
-        guard let appGroupUrl = maybeAppGroupUrl else {
-            self.mainWindow?.presentNative(UIAlertController(title: nil, message: "Error 2", preferredStyle: .alert))
-            return true
+        // Airagram: no app group container (sideloaded build) -> use the app's own Library directory.
+        let appGroupUrl: URL
+        if let maybeAppGroupUrl {
+            appGroupUrl = maybeAppGroupUrl
+        } else {
+            appGroupUrl = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent("AppGroup", isDirectory: true)
+            let _ = try? FileManager.default.createDirectory(at: appGroupUrl, withIntermediateDirectories: true)
         }
         
         var isDebugConfiguration = false

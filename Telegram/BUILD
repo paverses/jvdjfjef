@@ -436,6 +436,7 @@ plist_fragment(
             <key>CFBundleURLSchemes</key>
             <array>
                 <string>tg</string>
+                <string>airagram</string>
                 <string>aipgram</string>
                 <string>tonsite</string>
                 <string>ton</string>
@@ -637,7 +638,7 @@ plist_fragment(
     template =
     """
     <key>CFBundleDisplayName</key>
-    <string>AIPGram</string>
+    <string>Airagram</string>
     """
 )
 
@@ -1622,7 +1623,7 @@ plist_fragment(
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
-    <string>AIPGram</string>
+    <string>Airagram</string>
     <key>CFBundleIdentifier</key>
     <string>{telegram_bundle_id}</string>
     <key>CFBundleName</key>

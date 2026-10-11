@@ -420,7 +420,7 @@ public final class ChatMessageWebpageBubbleContentNode: ChatMessageBubbleContent
                 } else if let type = webpage.type {
                     switch type {
                         case "photo":
-                            if webpage.displayUrl.hasPrefix("aipgram.duckdns.org/") {
+                            if webpage.displayUrl.hasPrefix("airagram.duckdns.org/") {
                                 actionTitle = item.presentationData.strings.Conversation_ViewMessage
                             }
                         case "telegram_user":

@@ -80,7 +80,7 @@ final class InstantPageFeedbackNode: ASDisplayNode, InstantPageNode {
         }
         |> deliverOnMainQueue).start(next: { [weak self] peer in
             if let strongSelf = self, let _ = peer, let webPageId = strongSelf.webPage.id?.id {
-                strongSelf.openUrl(InstantPageUrlItem(url: "https://aipgram.duckdns.org/previews?start=webpage\(webPageId)", webpageId: nil))
+                strongSelf.openUrl(InstantPageUrlItem(url: "https://airagram.duckdns.org/previews?start=webpage\(webPageId)", webpageId: nil))
             }
         }))
     }

@@ -214,7 +214,7 @@ extension PeerInfoScreenNode {
         if value.hasPrefix("https://") {
             url = value
         } else {
-            url = "https://aipgram.duckdns.org/\(value)"
+            url = "https://airagram.duckdns.org/\(value)"
         }
         
         let openShare: (TelegramCollectibleItemInfo?) -> Void = { [weak self] collectibleItemInfo in

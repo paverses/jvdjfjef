@@ -204,7 +204,7 @@ public final class DeviceContactInstantMessagingProfileData: Equatable, Hashable
 }
 
 public let phonebookUsernamePathPrefix = "@id"
-private let phonebookUsernamePrefix = "https://aipgram.duckdns.org/" + phonebookUsernamePathPrefix
+private let phonebookUsernamePrefix = "https://airagram.duckdns.org/" + phonebookUsernamePathPrefix
 
 public extension DeviceContactUrlData {
     convenience init(appProfile: EnginePeer.Id) {

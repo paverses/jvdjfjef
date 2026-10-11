@@ -67,7 +67,7 @@ extension ChatControllerImpl {
                         }
                     }
                     timestampSuffix = "?t=\(startAtTimestampString)"
-                    let inputCopyText = "https://aipgram.duckdns.org/\(addressName)/\(message.id.id)\(timestampSuffix)"
+                    let inputCopyText = "https://airagram.duckdns.org/\(addressName)/\(message.id.id)\(timestampSuffix)"
                     UIPasteboard.general.string = inputCopyText
                 } else {
                     UIPasteboard.general.string = timecode

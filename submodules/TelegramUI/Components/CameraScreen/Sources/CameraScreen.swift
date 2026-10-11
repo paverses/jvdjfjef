@@ -2978,7 +2978,7 @@ public class CameraScreenImpl: ViewController, CameraScreen {
                     }
                     let filteredCodes = codes.filter {
                         let message = $0.message.replacingOccurrences(of: "https://", with: "")
-                        if message.hasPrefix("aipgram.duckdns.org/c/") || message.hasPrefix("aipgram.duckdns.org/+") || message.hasPrefix("aipgram.duckdns.org/contact/") || message.hasPrefix("aipgram.duckdns.org/") {
+                        if message.hasPrefix("airagram.duckdns.org/c/") || message.hasPrefix("airagram.duckdns.org/+") || message.hasPrefix("airagram.duckdns.org/contact/") || message.hasPrefix("airagram.duckdns.org/") {
                             return true
                         } else {
                             return false

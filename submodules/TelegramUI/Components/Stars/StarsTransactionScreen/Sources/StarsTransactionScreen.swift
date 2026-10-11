@@ -1128,7 +1128,7 @@ private final class StarsTransactionSheetContent: CombinedComponent {
                     component: AnyComponent(
                         Button(
                             content: AnyComponent(
-                                MultilineTextComponent(text: .plain(NSAttributedString(string: "aipgram.duckdns.org/\(peerName)/\(messageId.id)", font: tableFont, textColor: tableLinkColor)))
+                                MultilineTextComponent(text: .plain(NSAttributedString(string: "airagram.duckdns.org/\(peerName)/\(messageId.id)", font: tableFont, textColor: tableLinkColor)))
                             ),
                             action: {
                                 component.openMessage(messageId)

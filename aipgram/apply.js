@@ -5,8 +5,9 @@ const path = require("path");
 
 const SERVER_IP = "2.27.200.223";
 const SERVER_PORT = 2398;
-const APP_NAME = "AIPGram";
-const LINK_HOST = "aipgram.duckdns.org"; // public links (t.me on Telegram)
+const APP_NAME = "Airagram";
+const LINK_HOST = "airagram.duckdns.org"; // public links (t.me on Telegram)
+const OLD_LINK_HOST = "aipgram.duckdns.org"; // previous domain; its links still open in the app
 const RSA_KEY = [
   "-----BEGIN RSA PUBLIC KEY-----",
   "MIIBCgKCAQEAuwI+651GHh3hcvtJZmZbFw6KvldOtxcsdBe95Woa6mnRoIz4xQBq",
@@ -34,6 +35,25 @@ function mustReplace(text, re, replacement, what) {
   if (!re.test(text)) throw new Error("pattern not found: " + what);
   return text.replace(re, replacement);
 }
+
+// 0. Domain move from a tree patched for the old host: generated links use the new host, and the host
+//    lists that recognize our links get the new host first while keeping the old one.
+function mustReplaceText(text, from, to, what) {
+  if (!text.includes(from)) throw new Error("text not found: " + what);
+  return text.replace(from, to);
+}
+for (const file of walkSwift(path.join(root, "submodules"))) {
+  edit(path.relative(root, file), (t) => t
+    .split(`"https://${OLD_LINK_HOST}/`).join(`"https://${LINK_HOST}/`)
+    .split(`"${OLD_LINK_HOST}/`).join(`"${LINK_HOST}/`));
+}
+edit("submodules/UrlHandling/Sources/UrlHandling.swift", (t) => !t.includes(`    "${OLD_LINK_HOST}",\n`) || t.includes(`    "${LINK_HOST}",\n`) ? t :
+  mustReplaceText(t, `    "${OLD_LINK_HOST}",\n`, `    "${LINK_HOST}",\n    "${OLD_LINK_HOST}",\n`, "old host in baseTelegramMePaths"));
+edit("submodules/TelegramUI/Sources/OpenUrl.swift", (t) => !t.includes(`["${OLD_LINK_HOST}", "t.me"`) ? t :
+  t.replace(`["${OLD_LINK_HOST}", "t.me"`, `["${LINK_HOST}", "${OLD_LINK_HOST}", "t.me"`));
+edit("submodules/TelegramUI/Sources/Chat/ChatControllerOpenLinkContextMenu.swift", (t) => !t.includes(`if host == "${OLD_LINK_HOST}" ||`) ? t :
+  t.replace(`if host == "${OLD_LINK_HOST}" ||`, `if host == "${LINK_HOST}" || host == "${OLD_LINK_HOST}" ||`));
+edit("Telegram/BUILD", (t) => t.replace(/(<key>CFBundleDisplayName<\/key>\n\s*<string>)AIPGram(<\/string>)/g, `$1${APP_NAME}$2`));
 
 // 1. Seed data centers: every DC (production and test) is the AIPGram server, on its port.
 edit("submodules/TelegramCore/Sources/Network/Network.swift", (t) => {
@@ -84,7 +104,7 @@ for (const file of walkSwift(path.join(root, "submodules"))) {
     .split('"https://t.me/').join(`"https://${LINK_HOST}/`)
     .split('"t.me/').join(`"${LINK_HOST}/`));
 }
-edit("submodules/UrlHandling/Sources/UrlHandling.swift", (t) => t.includes(`"${LINK_HOST}",\n    "telegram.me"`) ? t :
+edit("submodules/UrlHandling/Sources/UrlHandling.swift", (t) => t.includes(`    "${LINK_HOST}",\n`) ? t :
   mustReplace(t, /(private let baseTelegramMePaths = \[\n)(\s+"telegram\.me",)/, `$1    "${LINK_HOST}",\n$2`, "baseTelegramMePaths"));
 edit("submodules/TelegramUI/Sources/OpenUrl.swift", (t) => t.includes(`telegramMeHosts: [String] = ["${LINK_HOST}"`) ? t :
   mustReplace(t, /telegramMeHosts: \[String\] = \["t\.me"/, `telegramMeHosts: [String] = ["${LINK_HOST}", "t.me"`, "telegramMeHosts"));
@@ -95,3 +115,25 @@ edit("submodules/TelegramUI/Sources/Chat/ChatControllerOpenLinkContextMenu.swift
 edit(".gitmodules", (t) => t
   .replace(/url\s*=\s*\.\.\/rlottie\.git/, "url = https://github.com/TelegramMessenger/rlottie.git")
   .replace(/url\s*=\s*\.\.\/tgcalls\.git/, "url = https://github.com/TelegramMessenger/tgcalls.git"));
+
+// 7. airagram:// (the scheme of the new link pages) is registered next to tg:// and the old aipgram://.
+edit("Telegram/BUILD", (t) => t.includes("<string>airagram</string>") ? t :
+  mustReplace(t, /( *)<string>tg<\/string>\n/, (m, indent) => m + `${indent}<string>airagram</string>\n`, "tg URL scheme"));
+
+// 8. Sideloaded builds (Sideloadly, AltStore, free Apple IDs) often get no app group container. Upstream then
+//    stops with an "Error 2" alert on an empty window: the black screen. Keep the data in the app's own
+//    Library directory instead; only the extensions lose access to it.
+edit("submodules/TelegramUI/Sources/AppDelegate.swift", (t) => t.includes("Airagram: no app group container") ? t :
+  mustReplace(t,
+    /        guard let appGroupUrl = maybeAppGroupUrl else \{\n            self\.mainWindow\?\.presentNative\(UIAlertController\(title: nil, message: "Error 2", preferredStyle: \.alert\)\)\n            return true\n        \}\n/,
+    [
+      "        // Airagram: no app group container (sideloaded build) -> use the app's own Library directory.",
+      "        let appGroupUrl: URL",
+      "        if let maybeAppGroupUrl {",
+      "            appGroupUrl = maybeAppGroupUrl",
+      "        } else {",
+      '            appGroupUrl = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent("AppGroup", isDirectory: true)',
+      "            let _ = try? FileManager.default.createDirectory(at: appGroupUrl, withIntermediateDirectories: true)",
+      "        }",
+      "",
+    ].join("\n"), "app group guard"));
