@@ -38,7 +38,7 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -k secret "$KEYCHAIN"
           security find-identity -v -p codesigning "$KEYCHAIN" || true
 
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
         with:
           path: ~/telegram-bazel-cache
           key: bazel-${{ runner.os }}-${{ github.run_id }}
@@ -55,10 +55,18 @@ jobs:
             --buildNumber=${{ github.run_number }} \
             --configuration=release_arm64
 
+      # Saved even when a later step fails, so the next build reuses the 1.5 h of compilation.
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ~/telegram-bazel-cache
+          key: bazel-${{ runner.os }}-${{ github.run_id }}
+
       - name: Collect IPA
         run: |
           mkdir -p artifacts
-          IPA=$(ls bazel-out/applebin_ios-ios_arm*-opt-ST-*/bin/Telegram/Telegram.ipa | head -1)
+          IPA=bazel-bin/Telegram/Telegram.ipa
+          [ -f "$IPA" ] || IPA=$(find -L bazel-out -path "*/bin/Telegram/Telegram.ipa" | head -1)
           cp "$IPA" artifacts/AIPGram.ipa
           ls -la artifacts
 
