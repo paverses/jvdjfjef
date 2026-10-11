@@ -57,9 +57,13 @@ edit("submodules/MtProtoKit/Sources/MTDatacenterAuthMessageService.m", (t) => {
   return mustReplace(t, /(productionPublicKeys = @\[\n\s+)\[\[MTDatacenterAuthPublicKey alloc\][\s\S]*?-----END RSA PUBLIC KEY-----"\]/, `$1${key}`, "production keys");
 });
 
-// 3. App name shown on the home screen.
-edit("Telegram/BUILD", (t) =>
-  t.replace(/(<key>CFBundleDisplayName<\/key>\n\s*<string>)Telegram(<\/string>)/g, `$1${APP_NAME}$2`));
+// 3. App name shown on the home screen; register aipgram:// (the scheme of our public link pages,
+//    handled like tg:// through app_specific_url_scheme in aipgram/configuration.json).
+edit("Telegram/BUILD", (t) => {
+  t = t.replace(/(<key>CFBundleDisplayName<\/key>\n\s*<string>)Telegram(<\/string>)/g, `$1${APP_NAME}$2`);
+  if (t.includes("<string>aipgram</string>")) return t;
+  return mustReplace(t, /( *)<string>tg<\/string>\n/, (m, indent) => m + `${indent}<string>aipgram</string>\n`, "tg URL scheme");
+});
 
 // 4. Public links live on our domain instead of t.me: generated links use it, and links on it open
 //    inside the app (t.me ones still do too).

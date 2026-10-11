@@ -436,6 +436,7 @@ plist_fragment(
             <key>CFBundleURLSchemes</key>
             <array>
                 <string>tg</string>
+                <string>aipgram</string>
                 <string>tonsite</string>
                 <string>ton</string>
                 <string>tc</string>
