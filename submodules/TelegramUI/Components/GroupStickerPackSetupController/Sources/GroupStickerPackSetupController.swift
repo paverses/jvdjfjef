@@ -270,7 +270,7 @@ private func groupStickerPackSetupControllerEntries(context: AccountContext, pre
     }
     var entries: [GroupStickerPackEntry] = []
     
-    entries.append(.search(presentationData.theme, presentationData.strings, isEmoji ? "t.me/addemoji/" : "t.me/addstickers/", isEmoji ? "emojiset" : presentationData.strings.Channel_Stickers_Placeholder, searchText))
+    entries.append(.search(presentationData.theme, presentationData.strings, isEmoji ? "aipgram.duckdns.org/addemoji/" : "aipgram.duckdns.org/addstickers/", isEmoji ? "emojiset" : presentationData.strings.Channel_Stickers_Placeholder, searchText))
     switch searchState {
         case .none:
             break

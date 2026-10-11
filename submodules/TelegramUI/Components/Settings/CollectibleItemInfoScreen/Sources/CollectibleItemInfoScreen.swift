@@ -491,7 +491,7 @@ private final class CollectibleItemInfoScreenContentComponent: Component {
                         let toastText: String
                         switch component.initialData.subject {
                         case let .username(username):
-                            UIPasteboard.general.string = "https://t.me/\(username.username)"
+                            UIPasteboard.general.string = "https://aipgram.duckdns.org/\(username.username)"
                             toastText = environment.strings.Conversation_LinkCopied
                         case let .phoneNumber(phoneNumber):
                             let formattedPhoneNumber = formatPhoneNumber(context: component.context, number: phoneNumber.phoneNumber)

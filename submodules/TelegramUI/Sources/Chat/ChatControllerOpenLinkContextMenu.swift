@@ -78,7 +78,7 @@ private func chatLinkContextMenuOpenMode(context: AccountContext, url: String) -
     if host.isEmpty {
         return .single(nil)
     }
-    if host == "t.me" || host == "telegram.me" || host == "telegram.dog" {
+    if host == "aipgram.duckdns.org" || host == "t.me" || host == "telegram.me" || host == "telegram.dog" {
         return .single(nil)
     }
     if host.hasSuffix(".ton") || scheme.hasPrefix("tonsite") {

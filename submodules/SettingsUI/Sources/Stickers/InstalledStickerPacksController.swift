@@ -1083,7 +1083,7 @@ public func installedStickerPacksController(context: AccountContext, mode: Insta
                             }
                         }
                     }
-                    let text = packNames.map { "https://t.me/addstickers/\($0)" }.joined(separator: "\n")
+                    let text = packNames.map { "https://aipgram.duckdns.org/addstickers/\($0)" }.joined(separator: "\n")
                     let shareController = context.sharedContext.makeShareController(context: context, params: ShareControllerParams(subject: .text(text), externalShare: true))
                     presentControllerImpl?(shareController, nil)
                 })])

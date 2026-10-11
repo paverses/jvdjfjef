@@ -224,7 +224,7 @@ private func makeInternalUrlHandler(
 }
 
 private let internetSchemes: [String] = ["http", "https"]
-private let telegramMeHosts: [String] = ["t.me", "telegram.me", "telegram.dog"]
+private let telegramMeHosts: [String] = ["aipgram.duckdns.org", "t.me", "telegram.me", "telegram.dog"]
 
 private func handleInternetUrl(
     parsedUrl: URL,
@@ -446,7 +446,7 @@ private func openCheckedExternalUrl(context: AccountContext, urlContext: OpenURL
                       let components = URLComponents(url: parsedUrl, resolvingAgainstBaseURL: false) else {
                     return
                 }
-                handleInternalUrl("https://t.me/sendgrams" + (components.percentEncodedQuery.map { "?" + $0 } ?? ""))
+                handleInternalUrl("https://aipgram.duckdns.org/sendgrams" + (components.percentEncodedQuery.map { "?" + $0 } ?? ""))
                 return
             }
             if let query = parsedUrl.query, let params = QueryParameters(query) {

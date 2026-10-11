@@ -224,7 +224,7 @@ public final class PaneSearchContainerNode: ASDisplayNode, EntitySearchContainer
             return
         }
 
-        let link = "https://t.me/addstickers/\(selectedStickerPack.info.shortName)"
+        let link = "https://aipgram.duckdns.org/addstickers/\(selectedStickerPack.info.shortName)"
         let presentationData = self.context.sharedContext.currentPresentationData.with { $0 }.withUpdated(theme: self.theme)
         let strings = self.strings
 
