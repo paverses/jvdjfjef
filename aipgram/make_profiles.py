@@ -20,7 +20,16 @@ def run(*args, **kw):
 
 with tempfile.TemporaryDirectory() as tmp:
     pem = os.path.join(tmp, "identity.pem")
-    run("openssl", "pkcs12", "-in", os.path.join(SIGNING, "certs", "SelfSigned.p12"), "-nodes", "-passin", "pass:", "-out", pem)
+    p12 = os.path.join(SIGNING, "certs", "SelfSigned.p12")
+    # OpenSSL 3 needs -legacy for the RC2-encrypted .p12; LibreSSL and OpenSSL 1.1 do not know the flag.
+    for extra in (["-legacy"], []):
+        try:
+            run("openssl", "pkcs12", *extra, "-in", p12, "-nodes", "-passin", "pass:", "-out", pem)
+            break
+        except subprocess.CalledProcessError as e:
+            print("openssl pkcs12 %s failed: %s" % (" ".join(extra) or "(plain)", e.stderr.decode(errors="replace").strip()[:300]))
+    else:
+        sys.exit("cannot read the self-signed identity")
     profiles = os.path.join(SIGNING, "profiles")
     for name in sorted(os.listdir(profiles)):
         if not name.endswith(".mobileprovision"):
