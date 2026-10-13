@@ -1724,7 +1724,7 @@ private final class GiftAuctionBidScreenComponent: Component {
             
             var link = ""
             if case let .generic(gift) = component.auctionContext.gift, let slug = gift.auctionSlug {
-                link = "https://airagram.duckdns.org/auction/\(slug)"
+                link = "https://airagram.top/auction/\(slug)"
             }
             
             let shareController = context.sharedContext.makeShareController(
@@ -1809,7 +1809,7 @@ private final class GiftAuctionBidScreenComponent: Component {
             
             var link = ""
             if case let .generic(gift) = gift, let slug = gift.auctionSlug {
-                link = "https://airagram.duckdns.org/auction/\(slug)"
+                link = "https://airagram.top/auction/\(slug)"
             }
             
             var items: [ContextMenuItem] = []

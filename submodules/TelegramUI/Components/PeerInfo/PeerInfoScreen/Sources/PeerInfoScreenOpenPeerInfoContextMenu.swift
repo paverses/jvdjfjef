@@ -132,14 +132,14 @@ extension PeerInfoScreenNode {
                 content = .linkCopied(title: nil, text: self.presentationData.strings.Conversation_LinkCopied)
             } else if let addressName = peer.addressName {
                 if case .channel = peer {
-                    text = "https://airagram.duckdns.org/\(addressName)"
+                    text = "https://airagram.top/\(addressName)"
                     content = .linkCopied(title: nil, text: self.presentationData.strings.Conversation_LinkCopied)
                 } else {
                     text = "@" + addressName
                     content = .copy(text: self.presentationData.strings.Conversation_UsernameCopied)
                 }
             } else {
-                text = "https://airagram.duckdns.org/@id\(peer.id.id._internalGetInt64Value())"
+                text = "https://airagram.top/@id\(peer.id.id._internalGetInt64Value())"
                 content = .linkCopied(title: nil, text: self.presentationData.strings.Conversation_LinkCopied)
             }
         

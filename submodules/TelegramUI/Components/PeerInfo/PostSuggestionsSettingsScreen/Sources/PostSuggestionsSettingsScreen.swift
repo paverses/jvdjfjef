@@ -522,7 +522,7 @@ final class PostSuggestionsSettingsScreenComponent: Component {
             }
             
             let address = component.peer?.addressName ?? ""
-            let link = "airagram.duckdns.org/\(address)?direct"
+            let link = "airagram.top/\(address)?direct"
             let fullLink = "https://\(link)"
             var linkSectionItems: [AnyComponentWithIdentity<Empty>] = []
             linkSectionItems.append(AnyComponentWithIdentity(id: 0, component: AnyComponent(

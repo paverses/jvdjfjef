@@ -1808,11 +1808,11 @@ private class QrContentNode: ASDisplayNode, ContentNode {
         
         var codeLink: String
         if let addressName = peer.addressName, !addressName.isEmpty {
-            codeLink = "https://airagram.duckdns.org/\(peer.addressName ?? "")"
+            codeLink = "https://airagram.top/\(peer.addressName ?? "")"
         } else if case let .user(peer) = peer {
-            codeLink = "https://airagram.duckdns.org/+\(peer.phone ?? "")"
+            codeLink = "https://airagram.top/+\(peer.phone ?? "")"
         } else if case .channel = peer {
-            codeLink = "https://airagram.duckdns.org/c/\(peer.id.id._internalGetInt64Value())"
+            codeLink = "https://airagram.top/c/\(peer.id.id._internalGetInt64Value())"
         } else {
             codeLink = ""
         }
@@ -1848,7 +1848,7 @@ private class QrContentNode: ASDisplayNode, ContentNode {
             
             self.codeImageNode.alpha = 0.0
             
-            self.codeMarkersNode.setSignal(qrCode(string: "https://airagram.duckdns.org/contact/000000:abcdef", color: .black, backgroundColor: nil, icon: .cutout, ecl: "Q", onlyMarkers: true) |> map { $0.1 }, attemptSynchronously: true)
+            self.codeMarkersNode.setSignal(qrCode(string: "https://airagram.top/contact/000000:abcdef", color: .black, backgroundColor: nil, icon: .cutout, ecl: "Q", onlyMarkers: true) |> map { $0.1 }, attemptSynchronously: true)
         }
     }
     
@@ -2543,7 +2543,7 @@ private class MessageContentNode: ASDisplayNode, ContentNode {
         
         let link: String
         if let message = self.messages.first, let chatPeer = message.peers[message.id.peerId] as? TelegramChannel, message.id.namespace == Namespaces.Message.Cloud, let addressName = chatPeer.addressName, !addressName.isEmpty {
-            link = "airagram.duckdns.org/\(addressName)/\(message.id.id)"
+            link = "airagram.top/\(addressName)/\(message.id.id)"
         } else {
             link = ""
         }

@@ -546,7 +546,7 @@ private final class ImportStickerPackTitleAlertContentNode: AlertContentNode {
                 
         self.inputFieldNode = ImportStickerPackTitleInputFieldNode(theme: ptheme, placeholder: placeholder, maxLength: maxLength, keyboardType: asciiOnly ? .asciiCapable : .default, returnKeyType: asciiOnly ? .done : .next, hasClearButton: hasClearButton)
         if asciiOnly {
-            self.inputFieldNode.prefix = "airagram.duckdns.org/addstickers/"
+            self.inputFieldNode.prefix = "airagram.top/addstickers/"
         }
         self.inputFieldNode.text = value ?? ""
         

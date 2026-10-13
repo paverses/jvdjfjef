@@ -549,10 +549,10 @@ public func proxySettingsController(accountManager: AccountManager<TelegramAccou
                     switch server.connection {
                     case let .mtp(secret):
                         let secret = MTProxySecret.parseData(secret)?.serializeToString() ?? ""
-                        string = "https://airagram.duckdns.org/proxy?server=\(server.host)&port=\(server.port)"
+                        string = "https://airagram.top/proxy?server=\(server.host)&port=\(server.port)"
                         string += "&secret=\((secret as NSString).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryValueAllowed) ?? "")"
                     case let .socks5(username, password):
-                        string = "https://airagram.duckdns.org/socks?server=\(server.host)&port=\(server.port)"
+                        string = "https://airagram.top/socks?server=\(server.host)&port=\(server.port)"
                         if let username = username, let password = password {
                             string += "&user=\((username as NSString).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryValueAllowed) ?? "")&pass=\((password as NSString).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryValueAllowed) ?? "")"
                         }

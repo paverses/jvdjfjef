@@ -1148,7 +1148,7 @@ public final class MediaStreamComponentController: ViewControllerComponentContai
                 if let inviteLinks = inviteLinks {
                     return inviteLinks
                 } else if let peer = peer, let addressName = peer.addressName, !addressName.isEmpty {
-                    return GroupCallInviteLinks(listenerLink: "https://airagram.duckdns.org/\(addressName)?voicechat", speakerLink: nil)
+                    return GroupCallInviteLinks(listenerLink: "https://airagram.top/\(addressName)?voicechat", speakerLink: nil)
                 } else if let link = exportedInvitation?.link {
                     return GroupCallInviteLinks(listenerLink: link, speakerLink: nil)
                 }

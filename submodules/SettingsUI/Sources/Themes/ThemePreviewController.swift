@@ -515,10 +515,10 @@ public final class ThemePreviewController: ViewController {
             case .settings:
                 return
             case let .theme(theme):
-                subject = .url("https://airagram.duckdns.org/addtheme/\(theme.slug)")
+                subject = .url("https://airagram.top/addtheme/\(theme.slug)")
                 preferredAction = .default
             case let .slug(slug, _), let .themeSettings(slug, _):
-                subject = .url("https://airagram.duckdns.org/addtheme/\(slug)")
+                subject = .url("https://airagram.top/addtheme/\(slug)")
                 preferredAction = .default
             case let .media(media):
                 subject = .media(media, nil)

@@ -1088,18 +1088,18 @@ private final class StickerPackContainer: ASDisplayNode {
                     links += "\n"
                 }
                 if info.id.namespace == Namespaces.ItemCollection.CloudEmojiPacks {
-                    links += "https://airagram.duckdns.org/addemoji/\(info.shortName)"
+                    links += "https://airagram.top/addemoji/\(info.shortName)"
                 } else {
-                    links += "https://airagram.duckdns.org/addstickers/\(info.shortName)"
+                    links += "https://airagram.top/addstickers/\(info.shortName)"
                 }
             }
             text = links
             shareSubject = .text(text)
         } else if let (info, _, _) = self.currentStickerPack {
             if info.id.namespace == Namespaces.ItemCollection.CloudEmojiPacks {
-                text = "https://airagram.duckdns.org/addemoji/\(info.shortName)"
+                text = "https://airagram.top/addemoji/\(info.shortName)"
             } else {
-                text = "https://airagram.duckdns.org/addstickers/\(info.shortName)"
+                text = "https://airagram.top/addstickers/\(info.shortName)"
             }
             shareSubject = .url(text)
         } else {

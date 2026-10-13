@@ -607,7 +607,7 @@ private final class QrCodeScanScreenNode: ViewControllerTracingNode, ASScrollVie
                 case .authTransfer:
                     filteredCodes = codes.filter { $0.message.hasPrefix("tg://") }
                 case .peer:
-                    filteredCodes = codes.filter { $0.message.hasPrefix("https://airagram.duckdns.org/") || $0.message.hasPrefix("airagram.duckdns.org/") }
+                    filteredCodes = codes.filter { $0.message.hasPrefix("https://airagram.top/") || $0.message.hasPrefix("airagram.top/") }
                 case .cryptoAddress:
                     filteredCodes = codes.filter { normalizedTonQrValue($0.message) != nil }
                 case .custom:

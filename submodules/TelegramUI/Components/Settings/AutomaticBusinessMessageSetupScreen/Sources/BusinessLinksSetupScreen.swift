@@ -475,9 +475,9 @@ final class BusinessLinksSetupScreenComponent: Component {
                             
                             let linkValue: String
                             if url == "phone", let phoneNumber = component.initialData.accountPeer?.phone {
-                                linkValue = "airagram.duckdns.org/+\(phoneNumber)"
+                                linkValue = "airagram.top/+\(phoneNumber)"
                             } else if url == "username", let addressName = component.initialData.accountPeer?.addressName {
-                                linkValue = "airagram.duckdns.org/\(addressName)"
+                                linkValue = "airagram.top/\(addressName)"
                             } else {
                                 return
                             }

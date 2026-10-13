@@ -10,6 +10,7 @@ import AccountContext
 import WalletContext
 
 private let baseTelegramMePaths = [
+    "airagram.top",
     "airagram.duckdns.org",
     "aipgram.duckdns.org",
     "telegram.me",
@@ -24,7 +25,7 @@ private let baseTelegraPhPaths = [
     "telegra.ph/",
     "te.legra.ph/",
     "graph.org/",
-    "airagram.duckdns.org/iv?",
+    "airagram.top/iv?",
     "telegram.org/blog/",
     "telegram.org/tour/"
 ]
@@ -280,7 +281,7 @@ public func parseInternalUrl(sharedContext: SharedAccountContext, context: Accou
                             }
                         }
                         if let _ = url {
-                            return .internalInstantView(url: "https://airagram.duckdns.org/\(query)")
+                            return .internalInstantView(url: "https://airagram.top/\(query)")
                         }
                     } else if peerName == "contact" {
                         var code: String?
@@ -342,7 +343,7 @@ public func parseInternalUrl(sharedContext: SharedAccountContext, context: Accou
                             }
                         }
                         if let _ = token {
-                            return .oauth(url: "https://airagram.duckdns.org/\(query)")
+                            return .oauth(url: "https://airagram.top/\(query)")
                         }
                     } else {
                         for queryItem in queryItems {
@@ -901,7 +902,7 @@ private func resolveInternalUrl(context: AccountContext, url: ParsedInternalUrl)
         case let .premiumOffer(reference):
             return .single(.result(.premiumOffer(reference: reference)))
         case let .sendGrams(queryItems):
-            var walletUrl = URLComponents(string: "https://airagram.duckdns.org/sendgrams")!
+            var walletUrl = URLComponents(string: "https://airagram.top/sendgrams")!
             walletUrl.queryItems = queryItems
             walletUrl.percentEncodedQuery = walletUrl.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
             if let value = walletUrl.string, WalletContext.isTonConnectUrl(value) {

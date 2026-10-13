@@ -16,7 +16,7 @@ private enum QrCodePreheater {
     static let once: Void = {
         DispatchQueue.global(qos: .utility).async {
             autoreleasepool {
-                let _ = qrCode(string: "https://airagram.duckdns.org/telegram", color: .black, icon: .none, ecl: "Q").start()
+                let _ = qrCode(string: "https://airagram.top/telegram", color: .black, icon: .none, ecl: "Q").start()
             }
         }
     }()

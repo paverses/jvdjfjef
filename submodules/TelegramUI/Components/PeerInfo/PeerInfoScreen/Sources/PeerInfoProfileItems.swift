@@ -577,7 +577,7 @@ func infoItems(
                 threadId = message.threadId
             }
             
-            let linkText = "https://airagram.duckdns.org/\(mainUsername)/\(threadId)"
+            let linkText = "https://airagram.top/\(mainUsername)/\(threadId)"
             
             items[currentPeerInfoSection]!.append(
                 PeerInfoScreenLabeledValueItem(
@@ -635,7 +635,7 @@ func infoItems(
                     PeerInfoScreenLabeledValueItem(
                         id: ItemUsername,
                         label: presentationData.strings.Channel_LinkItem,
-                        text: "https://airagram.duckdns.org/\(mainUsername)",
+                        text: "https://airagram.top/\(mainUsername)",
                         additionalText: additionalUsernames,
                         textColor: .accent,
                         icon: .qrCode,

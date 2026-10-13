@@ -6,8 +6,8 @@ const path = require("path");
 const SERVER_IP = "2.27.200.223";
 const SERVER_PORT = 2398;
 const APP_NAME = "Airagram";
-const LINK_HOST = "airagram.duckdns.org"; // public links (t.me on Telegram)
-const OLD_LINK_HOST = "aipgram.duckdns.org"; // previous domain; its links still open in the app
+const LINK_HOST = "airagram.top"; // public links (t.me on Telegram)
+const OLD_LINK_HOST = "airagram.duckdns.org"; // previous domain; its links still open in the app
 const RSA_KEY = [
   "-----BEGIN RSA PUBLIC KEY-----",
   "MIIBCgKCAQEAuwI+651GHh3hcvtJZmZbFw6KvldOtxcsdBe95Woa6mnRoIz4xQBq",
