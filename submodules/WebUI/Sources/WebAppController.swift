@@ -3590,6 +3590,7 @@ public final class WebAppController: ViewController, AttachmentContainable {
     private let buttonText: String?
     private let forceHasSettings: Bool
     private let isOnramp: Bool
+    private var glassBotName = ""
     private let keepAliveSignal: Signal<Never, KeepWebViewError>?
     private let replyToMessageId: EngineMessage.Id?
     private let threadId: Int64?
@@ -3668,6 +3669,7 @@ public final class WebAppController: ViewController, AttachmentContainable {
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: self.presentationData.strings.Common_Back, style: .plain, target: nil, action: nil)
         
+        self.glassBotName = params.botName
         if !self.isVerifyAgeBot {
             let titleView = WebAppTitleView(context: self.context, theme: self.presentationData.theme, isAttachMenu: self.source == .attachMenu)
             titleView.title = WebAppTitle(title: params.botName, counter: self.presentationData.strings.WebApp_Miniapp, isVerified: params.botVerified)
@@ -3731,7 +3733,7 @@ public final class WebAppController: ViewController, AttachmentContainable {
     }
     
     private func updateNavigationButtons() {
-        var showGlassButtons = self.isOnramp
+        var showGlassButtons = true
         if case .attachMenu = self.source {
             showGlassButtons = true
         } else if self.isVerifyAgeBot {
@@ -3739,19 +3741,31 @@ public final class WebAppController: ViewController, AttachmentContainable {
         }
         if showGlassButtons {
             let barButtonSize = CGSize(width: 44.0, height: 44.0)
+            self.navigationItem.titleView = nil
+            let closeSize = CGSize(width: self.controllerNode.hasBackButton ? 44.0 : min(240.0, 74.0 + CGFloat(self.glassBotName.count) * 9.0), height: 44.0)
+            let closeIcon = AnyComponent(BundleIconComponent(
+                name: self.controllerNode.hasBackButton ? "Navigation/Back" : "Navigation/Close",
+                tintColor: self.presentationData.theme.chat.inputPanel.panelControlColor
+            ))
+            var closeContent = closeIcon
+            if !self.controllerNode.hasBackButton && !self.glassBotName.isEmpty {
+                closeContent = AnyComponent(HStack([
+                    AnyComponentWithIdentity(id: "close", component: closeIcon),
+                    AnyComponentWithIdentity(id: "title", component: AnyComponent(Text(
+                        text: self.glassBotName,
+                        font: Font.semibold(17.0),
+                        color: self.presentationData.theme.chat.inputPanel.panelControlColor
+                    )))
+                ], spacing: 6.0))
+            }
             let closeComponent: AnyComponentWithIdentity<Empty> = AnyComponentWithIdentity(
                 id: "close",
                 component: AnyComponent(GlassBarButtonComponent(
-                    size: barButtonSize,
+                    size: closeSize,
                     backgroundColor: nil,
                     isDark: self.presentationData.theme.overallDarkAppearance,
                     state: .glass,
-                    component: AnyComponentWithIdentity(id: self.controllerNode.hasBackButton ? "back" : "close", component: AnyComponent(
-                        BundleIconComponent(
-                            name: self.controllerNode.hasBackButton ? "Navigation/Back" : "Navigation/Close",
-                            tintColor: self.presentationData.theme.chat.inputPanel.panelControlColor
-                        )
-                    )),
+                    component: AnyComponentWithIdentity(id: self.controllerNode.hasBackButton ? "back" : "close", component: closeContent),
                     action: { [weak self] _ in
                         self?.cancelPressed()
                     }
@@ -3788,7 +3802,7 @@ public final class WebAppController: ViewController, AttachmentContainable {
                 cancelButtonNode = current
                 cancelButtonNode.component = closeComponent
             } else {
-                cancelButtonNode = BarComponentHostNode(component: closeComponent, size: barButtonSize)
+                cancelButtonNode = BarComponentHostNode(component: closeComponent, size: closeSize)
                 self.cancelBarButtonNode = cancelButtonNode
                 self.navigationItem.leftBarButtonItem = UIBarButtonItem(customDisplayNode: cancelButtonNode)
             }

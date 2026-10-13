@@ -163,3 +163,56 @@ edit("submodules/TelegramApi/Sources/Api0.swift", (t) => t.includes("dict[-11345
     "        return Api.BotVerifierSettings.botVerifierSettings(Api.BotVerifierSettings.Cons_botVerifierSettings(flags: flags, icon: icon, company: company, customDescription: customDescription))",
     "    }",
     ""].join("\n"), "botVerification parsers"));
+
+// 11. Mini app header in the Telegram style: a glass capsule on the left (close icon + bot name) and "..." on the right,
+//     no centred title. Applies to every bot Web App (the client used to show text buttons "Закрыть" for them).
+edit("submodules/WebUI/Sources/WebAppController.swift", (t) => {
+  if (t.includes("private var glassBotName")) return t;
+  let s = t;
+  s = mustReplaceText(s, "    private let isOnramp: Bool\n", "    private let isOnramp: Bool\n    private var glassBotName = \"\"\n", "glassBotName property");
+  s = mustReplaceText(s, "        if !self.isVerifyAgeBot {\n            let titleView = WebAppTitleView(",
+    "        self.glassBotName = params.botName\n        if !self.isVerifyAgeBot {\n            let titleView = WebAppTitleView(", "glassBotName init");
+  s = mustReplaceText(s, "        var showGlassButtons = self.isOnramp\n", "        var showGlassButtons = true\n", "glass for all");
+  s = mustReplaceText(s, `        if showGlassButtons {
+            let barButtonSize = CGSize(width: 44.0, height: 44.0)
+`, `        if showGlassButtons {
+            let barButtonSize = CGSize(width: 44.0, height: 44.0)
+            self.navigationItem.titleView = nil
+            let closeSize = CGSize(width: self.controllerNode.hasBackButton ? 44.0 : min(240.0, 74.0 + CGFloat(self.glassBotName.count) * 9.0), height: 44.0)
+            let closeIcon = AnyComponent(BundleIconComponent(
+                name: self.controllerNode.hasBackButton ? "Navigation/Back" : "Navigation/Close",
+                tintColor: self.presentationData.theme.chat.inputPanel.panelControlColor
+            ))
+            var closeContent = closeIcon
+            if !self.controllerNode.hasBackButton && !self.glassBotName.isEmpty {
+                closeContent = AnyComponent(HStack([
+                    AnyComponentWithIdentity(id: "close", component: closeIcon),
+                    AnyComponentWithIdentity(id: "title", component: AnyComponent(Text(
+                        text: self.glassBotName,
+                        font: Font.semibold(17.0),
+                        color: self.presentationData.theme.chat.inputPanel.panelControlColor
+                    )))
+                ], spacing: 6.0))
+            }
+`, "capsule setup");
+  s = mustReplaceText(s, `            let closeComponent: AnyComponentWithIdentity<Empty> = AnyComponentWithIdentity(
+                id: "close",
+                component: AnyComponent(GlassBarButtonComponent(
+                    size: barButtonSize,
+`, `            let closeComponent: AnyComponentWithIdentity<Empty> = AnyComponentWithIdentity(
+                id: "close",
+                component: AnyComponent(GlassBarButtonComponent(
+                    size: closeSize,
+`, "close size");
+  s = mustReplaceText(s, `                    component: AnyComponentWithIdentity(id: self.controllerNode.hasBackButton ? "back" : "close", component: AnyComponent(
+                        BundleIconComponent(
+                            name: self.controllerNode.hasBackButton ? "Navigation/Back" : "Navigation/Close",
+                            tintColor: self.presentationData.theme.chat.inputPanel.panelControlColor
+                        )
+                    )),
+`, `                    component: AnyComponentWithIdentity(id: self.controllerNode.hasBackButton ? "back" : "close", component: closeContent),
+`, "close content");
+  s = mustReplaceText(s, "                cancelButtonNode = BarComponentHostNode(component: closeComponent, size: barButtonSize)\n",
+    "                cancelButtonNode = BarComponentHostNode(component: closeComponent, size: closeSize)\n", "close host");
+  return s;
+});
